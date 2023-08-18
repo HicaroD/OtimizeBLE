@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:otimize_ble/src/ble_manager/device.dart';
 
 class BleScanner {
   final FlutterReactiveBle ble;
 
   BleScanner({required this.ble});
 
-  final _devices = <DiscoveredDevice>[];
+  final _devices = <String, Device>{};
 
   final StreamController<BleScannerState> _stateStreamController =
       StreamController();
@@ -24,19 +25,26 @@ class BleScanner {
 
   StreamSubscription<void> subscribeToDeviceScanningStream() {
     return ble.scanForDevices(withServices: []).listen((device) {
-      final knownDeviceIndex = _devices.indexWhere(
-        (currentDevice) => currentDevice.id == device.id,
+      Device scannedDevice = Device(
+        id: device.id,
+        name: device.name,
+        services: device.serviceData,
+        connectable: device.connectable,
       );
 
-      if (knownDeviceIndex >= 0) {
-        _devices[knownDeviceIndex] = device;
+      if (isKnownDevice(device.id)) {
+        _devices[device.id] = scannedDevice;
       } else {
-        _devices.add(device);
+        _devices.putIfAbsent(device.id, () => scannedDevice);
       }
 
       _setScanningState();
       // TODO: deal with error
     }, onError: (Object e) => {});
+  }
+
+  bool isKnownDevice(String deviceId) {
+    return _devices.containsKey(deviceId);
   }
 
   Future<void> stopScan() async {
@@ -70,6 +78,6 @@ class BleScannerState {
     required this.scanIsInProgress,
   });
 
-  final List<DiscoveredDevice> discoveredDevices;
+  final Map<String, Device> discoveredDevices;
   final bool scanIsInProgress;
 }

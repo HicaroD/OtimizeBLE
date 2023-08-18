@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_bloc.dart';
 import 'package:otimize_ble/src/ui/buttons.dart';
+import 'package:otimize_ble/src/ui/connected_devices_list.dart';
 import 'package:otimize_ble/src/ui/scanned_device_list.dart';
 
 void main() {
@@ -11,10 +13,14 @@ void main() {
 
   final ble = FlutterReactiveBle();
   final bleScanner = BleScanner(ble: ble);
+  final bleDeviceConnector = BleDeviceConnector(ble: ble);
 
   runApp(
     BlocProvider(
-      create: (_) => BleBloc(bleScanner: bleScanner),
+      create: (_) => BleBloc(
+        bleScanner: bleScanner,
+        bleDeviceConnector: bleDeviceConnector,
+      ),
       child: const App(),
     ),
   );
@@ -59,6 +65,8 @@ class _OtimizeBLEState extends State<OtimizeBLE> {
             SizedBox(height: 10),
             Buttons(),
             ScannedDeviceList(),
+            Divider(color: Colors.blue),
+            ConnectedDevicesList(),
           ],
         ),
       ),
