@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_bloc.dart';
@@ -8,12 +8,13 @@ import 'package:otimize_ble/src/ui/buttons.dart';
 import 'package:otimize_ble/src/ui/connected_devices_list.dart';
 import 'package:otimize_ble/src/ui/scanned_device_list.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final ble = FlutterReactiveBle();
-  final bleScanner = BleScanner(ble: ble);
-  final bleDeviceConnector = BleDeviceConnector(ble: ble);
+  await FlutterBluePlus.turnOn();
+
+  final bleScanner = BleScanner();
+  final bleDeviceConnector = BleDeviceConnector();
 
   runApp(
     BlocProvider(

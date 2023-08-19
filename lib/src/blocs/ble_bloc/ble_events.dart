@@ -1,4 +1,4 @@
-import 'package:otimize_ble/src/ble_manager/device.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 abstract class BleEvent {}
 
@@ -7,7 +7,7 @@ class BleStartScanningEvent extends BleEvent {}
 class BleStopScanningEvent extends BleEvent {}
 
 class BleConnectToDeviceEvent extends BleEvent {
-  final Device device;
+  final BluetoothDevice device;
 
   BleConnectToDeviceEvent(this.device);
 }

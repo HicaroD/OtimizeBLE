@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
-import 'package:otimize_ble/src/ble_manager/device.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_events.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_states.dart';
 
@@ -29,12 +28,7 @@ class BleBloc extends Bloc<BleEvent, BleState> {
 
     on<BleConnectToDeviceEvent>((event, emit) async {
       bleDeviceConnector.connect(event.device);
-
-      await emit.forEach(
-        bleDeviceConnector.state,
-        onData: (Map<String, Device> connectedDevices) =>
-            BleConnectedDevicesState(connectedDevices: connectedDevices),
-      );
+      // TODO: por algum motivo, um dos sensores não conseguem manter a conexão, mas os outros sim
     });
   }
 }
