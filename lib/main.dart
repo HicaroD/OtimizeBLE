@@ -7,6 +7,7 @@ import 'package:otimize_ble/src/blocs/ble_bloc/ble_bloc.dart';
 import 'package:otimize_ble/src/ui/buttons.dart';
 import 'package:otimize_ble/src/ui/connected_devices_list.dart';
 import 'package:otimize_ble/src/ui/scanned_device_list.dart';
+import 'package:otimize_ble/src/ui/tabs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,14 +61,12 @@ class _OtimizeBLEState extends State<OtimizeBLE> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: const SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(height: 10),
             Buttons(),
-            ScannedDeviceList(),
-            Divider(color: Colors.blue),
-            ConnectedDevicesList(),
+            Tabs(),
           ],
         ),
       ),
