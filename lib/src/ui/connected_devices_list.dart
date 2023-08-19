@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:otimize_ble/src/ble_manager/device.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_bloc.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_states.dart';
 
@@ -14,7 +14,7 @@ class ConnectedDevicesList extends StatelessWidget {
       child: BlocBuilder<BleBloc, BleState>(
         builder: (context, state) {
           if (state is BleConnectedDevicesState) {
-            final devices = state.connectedDevices;
+            final devices = state.connectedDevices.connectedDevices;
             return ListView.builder(
               itemCount: devices.length,
               shrinkWrap: true,
@@ -22,11 +22,11 @@ class ConnectedDevicesList extends StatelessWidget {
                 // NOTE: Slow operations!!
                 final List<String> deviceIds = devices.keys.toList();
                 final String deviceId = deviceIds[index];
-                final Device device = devices[deviceId]!;
+                final BluetoothDevice device = devices[deviceId]!;
 
                 return ListTile(
-                  title: Text(device.name),
-                  subtitle: Text(device.id),
+                  title: Text(device.localName),
+                  subtitle: Text(device.remoteId.str),
                 );
               },
             );

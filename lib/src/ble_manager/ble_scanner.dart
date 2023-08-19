@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class BleScanner {
-  BleScanner();
-
   final _devices = <String, BluetoothDevice>{};
 
   final StreamController<BleScannerState> _stateStreamController =
@@ -16,18 +14,11 @@ class BleScanner {
 
   void startScan() async {
     _clearBeforeScan();
-    _subscription = subscribeToDeviceScanningStream();
-  }
-
-  Future<void> stopScan() async {
-    await _subscription?.cancel();
-    _subscription = null;
-    await FlutterBluePlus.stopScan();
-    _setScanningState();
-  }
-
-  StreamSubscription<void> subscribeToDeviceScanningStream() {
     FlutterBluePlus.startScan();
+    _subscription = listenToScanResults();
+  }
+
+  StreamSubscription<void> listenToScanResults() {
     return FlutterBluePlus.scanResults.listen((scanResults) {
       for (ScanResult scanResult in scanResults) {
         String remoteId = scanResult.device.remoteId.str;
@@ -35,6 +26,12 @@ class BleScanner {
       }
       _setScanningState();
     });
+  }
+
+  Future<void> stopScan() async {
+    await _subscription?.cancel();
+    await FlutterBluePlus.stopScan();
+    _setScanningState();
   }
 
   void _setScanningState() {

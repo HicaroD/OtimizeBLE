@@ -29,6 +29,10 @@ class BleBloc extends Bloc<BleEvent, BleState> {
     on<BleConnectToDeviceEvent>((event, emit) async {
       bleDeviceConnector.connect(event.device);
       // TODO: por algum motivo, um dos sensores não conseguem manter a conexão, mas os outros sim
+      await emit.forEach(
+        bleDeviceConnector.state,
+        onData: (state) => BleConnectedDevicesState(connectedDevices: state),
+      );
     });
   }
 }

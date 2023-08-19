@@ -1,5 +1,5 @@
+import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
-import 'package:otimize_ble/src/ble_manager/device.dart';
 
 abstract class BleState {}
 
@@ -11,6 +11,6 @@ class BleScannedDevicesState extends BleState {
 }
 
 class BleConnectedDevicesState extends BleState {
-  final Map<String, Device> connectedDevices;
+  final BleConnectedDevices connectedDevices;
   BleConnectedDevicesState({required this.connectedDevices});
 }
