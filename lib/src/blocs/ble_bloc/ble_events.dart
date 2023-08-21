@@ -11,3 +11,5 @@ class BleConnectToDeviceEvent extends BleEvent {
 
   BleConnectToDeviceEvent(this.device);
 }
+
+class BleConnectedDevicesEvent extends BleEvent {}

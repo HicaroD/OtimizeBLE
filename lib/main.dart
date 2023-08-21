@@ -5,8 +5,6 @@ import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_bloc.dart';
 import 'package:otimize_ble/src/ui/buttons.dart';
-import 'package:otimize_ble/src/ui/connected_devices_list.dart';
-import 'package:otimize_ble/src/ui/scanned_device_list.dart';
 import 'package:otimize_ble/src/ui/tabs.dart';
 
 void main() async {

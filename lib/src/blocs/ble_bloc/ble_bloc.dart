@@ -12,6 +12,7 @@ class BleBloc extends Bloc<BleEvent, BleState> {
     required this.bleScanner,
     required this.bleDeviceConnector,
   }) : super(BleInitialState()) {
+    // TODO: deal with any error
     on<BleStartScanningEvent>((event, emit) async {
       bleScanner.startScan();
 
@@ -22,17 +23,21 @@ class BleBloc extends Bloc<BleEvent, BleState> {
       );
     });
 
+    // TODO: deal with any error
     on<BleStopScanningEvent>((_, __) async {
       bleScanner.stopScan();
     });
 
+    // TODO: deal with any error
     on<BleConnectToDeviceEvent>((event, emit) async {
       bleDeviceConnector.connect(event.device);
-      // TODO: por algum motivo, um dos sensores não conseguem manter a conexão, mas os outros sim
-      await emit.forEach(
-        bleDeviceConnector.state,
-        onData: (state) => BleConnectedDevicesState(connectedDevices: state),
-      );
+    });
+
+    // TODO: deal with any error
+    on<BleConnectedDevicesEvent>((event, emit) async {
+      emit(BleLoadingState());
+      final devices = await bleDeviceConnector.getAllConnectedDevices();
+      emit(BleConnectedDevicesState(devices));
     });
   }
 }

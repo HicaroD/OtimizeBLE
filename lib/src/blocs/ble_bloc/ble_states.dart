@@ -1,9 +1,11 @@
-import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
 
 abstract class BleState {}
 
 class BleInitialState extends BleState {}
+
+class BleLoadingState extends BleState {}
 
 class BleScannedDevicesState extends BleState {
   final BleScannerState scanResult;
@@ -11,6 +13,7 @@ class BleScannedDevicesState extends BleState {
 }
 
 class BleConnectedDevicesState extends BleState {
-  final BleConnectedDevices connectedDevices;
-  BleConnectedDevicesState({required this.connectedDevices});
+  final List<BluetoothDevice> devices;
+
+  BleConnectedDevicesState(this.devices);
 }
