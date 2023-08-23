@@ -10,7 +10,8 @@ class BleDeviceConnector {
   void connect(BluetoothDevice device) async {
     try {
       await device.connect();
-      List<BluetoothService> services = await device.discoverServices();
+      List<BluetoothService> services =
+          await device.discoverServices(timeout: 30);
       _connectedDevices.add(Sensor(device: device, services: services));
     } catch (error) {
       // TODO: deal with errors

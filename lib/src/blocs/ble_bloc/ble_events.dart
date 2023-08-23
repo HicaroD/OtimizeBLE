@@ -8,7 +8,6 @@ class BleStopScanningEvent extends BleEvent {}
 
 class BleConnectToDeviceEvent extends BleEvent {
   final BluetoothDevice device;
-
   BleConnectToDeviceEvent(this.device);
 }
 
