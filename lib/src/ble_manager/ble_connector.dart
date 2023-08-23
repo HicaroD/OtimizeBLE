@@ -1,13 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:otimize_ble/src/ble_manager/sensor.dart';
 
 class BleDeviceConnector {
-  // TODO: deal with errors
+  final List<Sensor> _connectedDevices = [];
+  List<Sensor> get connectedDevices => _connectedDevices;
+
   void connect(BluetoothDevice device) async {
     try {
       await device.connect();
+      List<BluetoothService> services = await device.discoverServices();
+      _connectedDevices.add(Sensor(device: device, services: services));
     } catch (error) {
+      // TODO: deal with errors
       rethrow;
     }
   }

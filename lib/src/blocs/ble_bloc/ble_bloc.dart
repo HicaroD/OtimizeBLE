@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:otimize_ble/src/ble_manager/ble_commands.dart';
 import 'package:otimize_ble/src/ble_manager/ble_connector.dart';
+import 'package:otimize_ble/src/ble_manager/ble_interactor.dart';
 import 'package:otimize_ble/src/ble_manager/ble_scanner.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_events.dart';
 import 'package:otimize_ble/src/blocs/ble_bloc/ble_states.dart';
@@ -30,14 +32,14 @@ class BleBloc extends Bloc<BleEvent, BleState> {
 
     // TODO: deal with any error
     on<BleConnectToDeviceEvent>((event, emit) async {
-      bleDeviceConnector.connect(event.device);
+      final device = event.device;
+      bleDeviceConnector.connect(device);
     });
 
     // TODO: deal with any error
-    on<BleConnectedDevicesEvent>((event, emit) async {
-      emit(BleLoadingState());
-      final devices = await bleDeviceConnector.getAllConnectedDevices();
-      emit(BleConnectedDevicesState(devices));
+    on<BleStartEvaluationEvent>((event, emit) async {
+      final bleInteractor = BleInteractor(bleDeviceConnector.connectedDevices);
+      bleInteractor.write(BleCommand.StartEvaluation);
     });
   }
 }

@@ -25,6 +25,13 @@ class Buttons extends StatelessWidget {
           icon: const Icon(Icons.stop),
           label: const Text("Stop"),
         ),
+        ElevatedButton.icon(
+          onPressed: () {
+            context.read<BleBloc>().add(BleStartEvaluationEvent());
+          },
+          icon: const Icon(Icons.start),
+          label: const Text("Start"),
+        ),
       ],
     );
   }

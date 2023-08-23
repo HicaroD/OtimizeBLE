@@ -13,3 +13,5 @@ class BleConnectToDeviceEvent extends BleEvent {
 }
 
 class BleConnectedDevicesEvent extends BleEvent {}
+
+class BleStartEvaluationEvent extends BleEvent {}
